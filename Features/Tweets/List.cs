@@ -1,5 +1,7 @@
+using blazortweets.Data;
 using MediatR;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,17 +21,20 @@ namespace blazortweets.Features.Tweets
 
         public class QueryHandler : IRequestHandler<Query, Model>
         {
+            private Store _store;
+
+            public QueryHandler(Store store)
+            {
+                _store = store;
+            }
+
             public async Task<Model> Handle(Query request, CancellationToken cancellationToken)
             {
                 return new Model
                 {
-                    Tweets = new List<string>
-                {
-                    "One from the server",
-                    "Two from the server",
-                    "Three from the server",
-                    "Four"
-                }
+                    Tweets = _store.Tweets
+                        .Select(x => x.Contents)
+                        .ToList()
                 };
             }
         }
