@@ -1,4 +1,7 @@
 @page "/tweets"
+@using MediatR
+@using blazortweets.Features
+@inject IMediator Mediator
 
 <h3>Tweets</h3>
 
@@ -13,12 +16,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _tweets = new List<string>
-        {
-            "One tweet",
-            "Two tweets",
-            "Three tweets",
-            "Four"
-        };
+        var model = await Mediator.Send(new Features.Tweets.List.Query());
+        _tweets = model.Tweets;
     }
 }
