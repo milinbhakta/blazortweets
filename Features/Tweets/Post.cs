@@ -22,9 +22,10 @@ namespace blazortweets.Features.Tweets
                 this.store = store;
             }
 
-            protected override async Task Handle(Command request, CancellationToken cancellationToken)
+            protected override Task Handle(Command request, CancellationToken cancellationToken)
             {
                 store.Add(new Tweet { Contents = request.Contents });
+                return Task.CompletedTask;
             }
         }
     }

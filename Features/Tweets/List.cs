@@ -28,14 +28,14 @@ namespace blazortweets.Features.Tweets
                 _store = store;
             }
 
-            public async Task<Model> Handle(Query request, CancellationToken cancellationToken)
+            public Task<Model> Handle(Query request, CancellationToken cancellationToken)
             {
-                return new Model
+                return Task.FromResult(new Model
                 {
                     Tweets = _store.Tweets
                         .Select(x => x.Contents)
                         .ToList()
-                };
+                });
             }
         }
     }
